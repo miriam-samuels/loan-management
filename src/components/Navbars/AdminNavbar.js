@@ -88,7 +88,8 @@ function AdminNavbar(props) {
               </NavbarToggler>
             </div>
             <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
-              {props.brandText}
+              {/* {props.brandText} */}
+              Loan Management
             </NavbarBrand>
           </div>
           <NavbarToggler onClick={toggleCollapse}>
@@ -157,7 +158,7 @@ function AdminNavbar(props) {
                   <p className="d-lg-none">Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
+                  <NavLink tag="li" to="/user-profile">
                     <DropdownItem className="nav-item">Profile</DropdownItem>
                   </NavLink>
                   <NavLink tag="li">
