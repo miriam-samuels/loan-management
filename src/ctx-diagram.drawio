@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-10-02T21:24:26.029Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="qgP95JAQEMpCGEaw1S-t" version="22.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-02T21:32:40.076Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="wsepm_oV5nvd3H1ctwLz" version="22.0.0" type="github">
   <diagram name="Page-1" id="WiTn8isQ3tz0NeDUUIZ3">
-    <mxGraphModel dx="3408" dy="2093" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3773" dy="2391" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -16,26 +16,32 @@
             <Array as="points">
               <mxPoint x="308" y="125" />
               <mxPoint x="440" y="125" />
-              <mxPoint x="440" y="78" />
+              <mxPoint x="440" y="85" />
+              <mxPoint x="441" y="85" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-95" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="_yR6piTLcmD-9P2-bQx6-15" source="_yR6piTLcmD-9P2-bQx6-23" target="_yR6piTLcmD-9P2-bQx6-39">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="238" y="125" />
+              <mxPoint x="70" y="125" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-23" value="API&amp;nbsp; Server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="_yR6piTLcmD-9P2-bQx6-15">
           <mxGeometry x="202.8716512955643" y="30" width="139.43785682916115" height="40" as="geometry" />
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="_yR6piTLcmD-9P2-bQx6-15" source="_yR6piTLcmD-9P2-bQx6-39" target="_yR6piTLcmD-9P2-bQx6-23">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points" />
+            <Array as="points">
+              <mxPoint x="70" y="-5" />
+              <mxPoint x="238" y="-5" />
+            </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-39" value="Web Application&lt;br&gt;(User Interface)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="_yR6piTLcmD-9P2-bQx6-15">
           <mxGeometry x="34.85946420729029" y="30" width="139.43785682916115" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="_yR6piTLcmD-9P2-bQx6-43" value="Fetch and send data using" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="_yR6piTLcmD-9P2-bQx6-15">
-          <mxGeometry x="74.99640389401259" y="-14.995384615384623" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-83" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="_yR6piTLcmD-9P2-bQx6-15" source="_yR6piTLcmD-9P2-bQx6-62" target="_yR6piTLcmD-9P2-bQx6-82">
           <mxGeometry relative="1" as="geometry" />
@@ -81,6 +87,9 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="_yR6piTLcmD-9P2-bQx6-43" value="Fetch and send data using" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="_yR6piTLcmD-9P2-bQx6-15">
+          <mxGeometry x="75.99640389401259" y="-29.995384615384637" width="160" height="30" as="geometry" />
+        </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="_yR6piTLcmD-9P2-bQx6-16" target="_yR6piTLcmD-9P2-bQx6-39">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -104,7 +113,7 @@
           <mxGeometry x="-5" y="345" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-20" value="Manages loans using" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;rotation=-90;" vertex="1" parent="1">
-          <mxGeometry x="50" y="390" width="140" height="30" as="geometry" />
+          <mxGeometry x="50" y="380" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_yR6piTLcmD-9P2-bQx6-21" value="Borrower" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="1209" y="680" width="70" height="30" as="geometry" />
