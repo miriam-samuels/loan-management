@@ -15,88 +15,115 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard from "views/Dashboard.js";
+import ActiveLoans from "views/active-loans";
+import Borrowers from "views/borrowers";
+import Dashboard from "views/dashboard";
 import Icons from "views/Icons.js";
+import LoanHistory from "views/loan-history";
+
+import LoanRequests from "views/loan-requests";
+import PendingLoans from "views/pending-loans";
 import Typography from "views/Typography.js";
-import UserProfile from "views/UserProfile.js";
+import UserProfile from "views/profile";
 
 var routes = [
+
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "tim-icons icon-chart-pie-36",
     component: <Dashboard />,
-    layout: "/admin",
+    layout: "/lender",
   },
   {
-    path: "/dashboard",
+    path: "/loan-requests",
     name: "Loan Requests",
     icon: "tim-icons icon-paper",
-    component: <Dashboard />,
-    layout: "/admin",
+    component: <LoanRequests />,
+    layout: "/lender",
   },
   {
-    path: "/dashboard",
+    path: "/pending-loans",
     name: "Loan Under Review",
     icon: "tim-icons icon-alert-circle-exc",
-    component: <Dashboard />,
-    layout: "/admin",
+    component: <PendingLoans />,
+    layout: "/lender",
   },
   {
-    path: "/dashboard",
+    path: "/active-loans",
     name: "Active Loans",
     icon: "tim-icons icon-money-coins",
-    component: <Dashboard />,
-    layout: "/admin",
+    component: <ActiveLoans />,
+    layout: "/lender",
   },
+  // {
+  //   path: "/denied-loans",
+  //   name: "Denied Loans",
+  //   icon: "tim-icons icon-vector",
+  //   component: <DeniedLoans />,
+  //   layout: "/lender",
+  // },
   {
-    path: "/dashboard",
-    name: "Denied Loans",
-    icon: "tim-icons icon-vector",
-    component: <Dashboard />,
-    layout: "/admin",
-  },
-  {
-    path: "/dashboard",
+    path: "/loan-history/",
     name: "Loans History",
     icon: "tim-icons icon-book-bookmark",
-    component: <Dashboard />,
-    layout: "/admin",
+    component: <LoanHistory />,
+    layout: "/lender",
+    // children: [
+    //   {
+    //     path: "all",
+    //     name: "All Loans",
+    //     component: <AllLoans />,
+    //     layout: "/lender",
+    //   },
+    //   {
+    //     path: "approved",
+    //     name: "Approved Loans",
+    //     component: <ApprovedLoans />,
+    //     layout: "/lender",
+    //   },
+    //   {
+    //     path: "denied",
+    //     name: "Denied Loans",
+    //     component: <DeniedLoans />,
+    //     layout: "/lender",
+    //   },
+    // ]
   },
   {
-    path: "/dashboard",
+    path: "/borrowers",
     name: "Members",
     icon: "tim-icons icon-badge",
-    component: <Dashboard />,
-    layout: "/admin",
+    component: <Borrowers />,
+    layout: "/lender",
   },
   {
     path: "/dashboard",
     name: "Loan Types and Requirements",
     icon: "tim-icons icon-notes",
     component: <Dashboard />,
-    layout: "/admin",
+    layout: "/lender",
   },
   {
     path: "/icons",
     name: "Icons",
     icon: "tim-icons icon-atom",
     component: <Icons />,
-    layout: "/admin",
+    layout: "/lender",
   },
   {
     path: "/user-profile",
     name: "User Profile",
     icon: "tim-icons icon-single-02",
     component: <UserProfile />,
-    layout: "/admin",
+    layout: "/lender",
   },
   {
     path: "/typography",
     name: "Typography",
     icon: "tim-icons icon-align-center",
     component: <Typography />,
-    layout: "/admin",
+    layout: "/lender",
   },
 
 ];

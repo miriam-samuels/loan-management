@@ -25,13 +25,13 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
-import routes from "routes.js";
+import routes from "routes/lender.js";
 
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
 
-function Admin(props) {
+function Lender(props) {
   const location = useLocation();
   const mainPanelRef = React.useRef(null);
   const [sidebarOpened, setsidebarOpened] = React.useState(
@@ -76,17 +76,29 @@ function Admin(props) {
     document.documentElement.classList.toggle("nav-open");
     setsidebarOpened(!sidebarOpened);
   };
+
   const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
-        );
-      } else {
-        return null;
-      }
-    });
+    return routes.map((prop, key) => (
+      (prop.layout === "/lender" && prop.children?.length) ?
+        (
+          <Route path={prop.path} element={prop.component} key={key}>
+            {
+              prop.children?.map((c, idx) => (
+                <>
+                  {
+                    idx === 0 && <Route index element={c.component} key={idx} />
+                  }
+                  <Route path={c.path} element={c.component} key={idx} />
+
+                </>
+              ))
+            }
+          </Route>
+        ) :
+        <Route path={prop.path} element={prop.component} key={key} />
+    ))
   };
+
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
       if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
@@ -117,7 +129,7 @@ function Admin(props) {
                   element={<Navigate to="/admin/dashboard" replace />}
                 />
               </Routes>
-             
+
             </div>
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
@@ -127,4 +139,4 @@ function Admin(props) {
   );
 }
 
-export default Admin;
+export default Lender;

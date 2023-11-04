@@ -1,0 +1,12 @@
+.input-grp {
+   display: block;
+   width: 100%;
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 1em;
+
+   & input{
+      display: block;
+      width: 100% !important;
+   }
+}
