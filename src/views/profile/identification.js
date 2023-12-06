@@ -2,17 +2,40 @@ import React, { useState } from 'react'
 import { Input, SelectField } from 'components/Input'
 import { Button, Card, CardBody, CardHeader, CardTitle, Col, Row } from 'reactstrap'
 import './index.scss'
-import { relationships } from './constants'
-function IdentificationInfo({ save }) {
-   const [user, setUser] = useState()
+import { banks, relationships } from './constants'
+import { useUpdateProfileMutation } from 'redux/user'
+import { useUploadImageMutation } from 'redux/media'
+import { uploadFile } from 'utils/uploader'
+import { toast } from 'react-toastify'
+import Loader from 'components/loader'
+import { truncateString } from 'utils/string-formatter'
+function IdentificationInfo({ save, user, setUser }) {
+   const [submit, { isLoading: isSubmitting }] = useUpdateProfileMutation()
+   const [upload, { isLoading: isUploading }] = useUploadImageMutation()
 
-   const handleInputChange = (e) => {
-      setUser({ ...user, [e.target.name]: e.target.value })
+   const handleInputChange = (e, idx) => {
+      if (e.target.type === "file") {
+         setUser({ ...user, [e.target.name]: e.target.files[0] })
+      } else {
+         setUser({ ...user, [e.target.name]: e.target.value })
+      }
    }
 
-   const handleSave = (e) => {
+   const handleSave = async (e) => {
       e.preventDefault()
-      save(7)
+      let payload = user
+
+      if (typeof (payload.identification) !== 'string') {
+         const identification = await uploadFile(payload.identification, upload)
+         payload = { ...payload, identification }
+      }
+      setUser(payload)
+      const res = await submit(payload)
+
+      if (res.data) {
+         toast.success(res.data.message)
+         save(7)
+      } else toast.error(res.error.message)
    }
    return (
       <div className='content'>
@@ -25,20 +48,32 @@ function IdentificationInfo({ save }) {
                   <CardBody>
                      <form>
                         <div className='input-grp'>
-                           <Input label="National Identity Card or Slip" type="file" name="passport" accept=".png, .jpg" onChange={handleInputChange} required />
-                           <Input label="National Identity Number" type="number" name="income" onChange={handleInputChange} required />
+                           <Input label="National Identity Number" type="text" name="nin" value={user?.nin} maxLength={11} onChange={handleInputChange} required />
+                           <div>
+                              <Input label="National Passport / Voters Card / Drivers License" type="file" name="identification" accept=".png, .jpg" onChange={handleInputChange} required />
+                              <p>{typeof (user?.identification) === 'string' && truncateString(user?.identification, 40)}</p>
+                           </div>
                         </div>
                         <div className='input-grp'>
-                           <Input label="National Passport / Voters Card / Drivers License" type="file" name="passport" accept=".png, .jpg" onChange={handleInputChange} required />
-                           <Input label="Bank Verification Number" type="number" name="income" onChange={handleInputChange} required />
+                           <Input label="Bank Verification Number (BVN)" type="text" name="bvn" value={user?.bvn} maxLength={11} onChange={handleInputChange} required />
+                           <Input label="Account number" type="text" name="account_number" value={user?.account_number} onChange={handleInputChange} required />
                         </div>
                         <div className='input-grp'>
-                           <Input label="Bank Name" type="email" name="email" onChange={handleInputChange} required />
-                           <Input label="Account number" type="number" name="phone" onChange={handleInputChange} required />
+                           <SelectField
+                              className="basic-single"
+                              classNamePrefix="select"
+                              label="Bank Name"
+                              isSearchable={true}
+                              name="bank_name"
+                              options={banks}
+                              defaultValue={{ label: user?.bank_name, value: user?.bank_name }}
+                              onChange={(selected) => setUser({ ...user, bank_name: selected.value })}
+                           />
                         </div>
-                       
+
                         <div className='text-right mt-4'>
-                           <Button color='primary' onClick={handleSave}>Save and Continue</Button>
+                           <Button color='secondary' onClick={() => save(4)}>Go Back</Button>
+                           <Button color='primary' onClick={handleSave}>{isSubmitting || isUploading ? <Loader size={30} /> : "Save"}</Button>
                         </div>
                      </form>
 

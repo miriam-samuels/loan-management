@@ -1,0 +1,13 @@
+.count-card{
+   padding: 2em;
+   & .card-header{
+      display: flex;
+      gap: 1em;
+      padding: 0 !important;
+   }
+
+   & .card-body{
+      margin-bottom: 0;
+      padding-left: 0 !important;
+   }
+}

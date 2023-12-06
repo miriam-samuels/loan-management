@@ -37,7 +37,7 @@ export const {
 
 // auth api slice
 const initialState = {
-   data: JSON.parse(localStorage.getItem('ud') || "null")
+   data: JSON.parse(localStorage.getItem("usd") || "null")
 }
 
 export const loggedSlice = createSlice({
@@ -47,18 +47,23 @@ export const loggedSlice = createSlice({
       // store user details
       setLogged(state, action) {
          state.data = action.payload;
+         const p = JSON.stringify(state.data)
+         localStorage.setItem("usd", p)
+      },
+      getLogged(state) {
+         const p = localStorage.getItem("usd")
+         state.data = JSON.parse(p || "null")
       },
 
       logout(state) {
          localStorage.removeItem("tk");
-         localStorage.removeItem("ud");
+         setLogged(null)
          state.data = null;
-         setLogged({})
       },
    },
 });
 
-export const { setLogged, logout } = loggedSlice.actions;
+export const { setLogged,getLogged, logout } = loggedSlice.actions;
 
 export const selectLogged = (state) => state.logged.data;
 

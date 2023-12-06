@@ -28,6 +28,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes/lender.js";
 
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
+import { sidebarRoutes } from "routes/lender";
 
 var ps;
 
@@ -113,7 +114,7 @@ function Lender(props) {
         <React.Fragment>
           <div className="wrapper">
             <Sidebar
-              routes={routes}
+              routes={sidebarRoutes}
               toggleSidebar={toggleSidebar}
             />
             <div className="main-panel" ref={mainPanelRef} data={color}>
@@ -125,7 +126,7 @@ function Lender(props) {
               <Routes>
                 {getRoutes(routes)}
                 <Route
-                  path="/"
+                  path="**"
                   element={<Navigate to="/admin/dashboard" replace />}
                 />
               </Routes>

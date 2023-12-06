@@ -23,8 +23,9 @@ import LoanApplication from "views/loan-application";
 import LoanHistory from "views/loan-history";
 import Typography from "views/Typography.js";
 import UserProfile from "views/profile";
+import Application from "views/loan-history/application";
 
-var routes = [
+const routes = [
 
   {
     path: "/dashboard",
@@ -61,6 +62,13 @@ var routes = [
     // ]
   },
   {
+    path: "/loan-history/:id/",
+    name: "Application",
+    icon: "tim-icons icon-book-bookmark",
+    component: <Application />,
+    layout: "/borrower",
+  },
+  {
     path: "/loan-application",
     name: "Apply For Loan",
     icon: "tim-icons icon-paper",
@@ -90,4 +98,30 @@ var routes = [
   },
 
 ];
+
+export const sidebarRoutes = [
+
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: "tim-icons icon-chart-pie-36",
+    component: <Dashboard />,
+    layout: "/borrower",
+  },
+  {
+    path: "/loan-history/",
+    name: "Loans History",
+    icon: "tim-icons icon-book-bookmark",
+    component: <LoanHistory />,
+    layout: "/borrower",
+  },
+  {
+    path: "/loan-application",
+    name: "Apply For Loan",
+    icon: "tim-icons icon-paper",
+    component: <LoanApplication />,
+    layout: "/borrower",
+  },
+];
+
 export default routes;

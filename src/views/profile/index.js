@@ -1,21 +1,4 @@
-/*!
-
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React, { useState } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import {
   Button,
@@ -24,9 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardText,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
   Progress,
@@ -34,13 +14,31 @@ import {
 import UserInfo from "./user-info";
 import EmploymentInfo from "./employment-info";
 import CriminalInfo from "./criminal-info";
-import CollateralInfo from "./collateral-info";
 import KinInfo from "./kin-info";
 import GuarantorInfo from "./guarantor-info";
 import IdentificationInfo from "./identification";
+import Loader from "components/loader";
+import { toast } from "react-toastify";
+import { useLazyGetProfileQuery } from "redux/user";
+import { truncateString } from "utils/string-formatter";
 
 function UserProfile() {
-  const [step, setStep] = useState(0.8)
+  const [getProfile, { data: profile, isLoading: loadingProfile }] = useLazyGetProfileQuery()
+
+  const [user, setUser] = useState({})
+  const [step, setStep] = useState(1)
+
+  useEffect(() => {
+    (async function () {
+      const res = await getProfile()
+      if (res.data) {
+        console.log(res.data);
+        setUser(res.data?.data?.user)
+        toast.success(res.data.message)
+      } else toast.error(res.error.message)
+    })()
+  }, [])
+
   return (
     <>
       <div className="content">
@@ -54,51 +52,128 @@ function UserProfile() {
                 <div>
                   <Progress
                     className="my-2"
-                    value={step * 10}
-                    max={70}
+                    value={user.progress > step * 16 ? user.progress : step * 16} // to make 100 when at step 7
+                    max={96}
                     color='info'
                     style={{ height: '20px', backgroundColor: 'white' }}
                   >
                     Progress
                   </Progress>
                 </div>
-                <div className='mt-4'>
-                  {step === 0.8 && <UserInfo save={(s) => setStep(s)} />}
-                  {step === 1 && <EmploymentInfo save={(s) => setStep(s)} />}
-                  {step === 2 && <CriminalInfo save={(s) => setStep(s)} />}
-                  {step === 3 && <CollateralInfo save={(s) => setStep(s)} />}
-                  {step === 4 && <KinInfo save={(s) => setStep(s)} />}
-                  {step === 5 && <GuarantorInfo save={(s) => setStep(s)} />}
-                  {step === 6 && <IdentificationInfo save={(s) => setStep(s)} />}
-                </div>
+                {
+                  loadingProfile ? <Loader size={30} /> :
+                    <div className='mt-4'>
+                      {step === 1 && <UserInfo save={(s) => setStep(s)} user={user} setUser={setUser} />}
+                      {step === 2 && <EmploymentInfo save={(s) => setStep(s)} user={user} setUser={setUser} />}
+                      {step === 3 && <CriminalInfo save={(s) => setStep(s)} user={user} setUser={setUser} />}
+                      {step === 4 && <KinInfo save={(s) => setStep(s)} user={user} setUser={setUser} />}
+                      {step === 5 && <GuarantorInfo save={(s) => setStep(s)} user={user} setUser={setUser} />}
+                      {step === 6 && <IdentificationInfo save={(s) => setStep(s)} user={user} setUser={setUser} />}
+                    </div>
+                }
+
               </CardBody>
             </Card>
           </Col>
           <Col md="4">
             <Card className="card-user">
-              <CardBody>
-                <CardText />
-                <div className="author">
-                  <div className="block block-one" />
-                  <div className="block block-two" />
-                  <div className="block block-three" />
-                  <div className="block block-four" />
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    <img
-                      alt="..."
-                      className="avatar"
-                      src={require("assets/img/emilyz.jpg")}
-                    />
-                    <h5 className="title">Mike Andrew</h5>
-                  </a>
-                  <p className="description">Ceo/Co-Founder</p>
-                </div>
-                <div className="card-description">
-                  Do not be scared of the truth because we need to restart the
-                  human foundation in truth And I love you like Kanye loves
-                  Kanye I love Rick Owens’ bed design but the back is...
-                </div>
-              </CardBody>
+              {
+                (!loadingProfile && user) && (
+                  <CardBody className="user-details">
+                    <CardText />
+                    <div className="user-header">
+                      <div className="author">
+                        <div className="block block-one" />
+                        <div className="block block-two" />
+                        <div className="block block-three" />
+                        <div className="block block-four" />
+                        <div>
+                          <img
+                            alt="..."
+                            className="avatar"
+                            src={user?.passport}
+                          />
+                          <h5 className="title">{user?.firstname} {user?.lastname} </h5>
+                        </div>
+                        <p className="description">{user?.job}</p>
+                      </div>
+                    </div>
+
+                    <div className="card-description">
+                      <ul>
+                        {Object.entries(user).map(([key, value]) => (
+                          <Fragment>
+                            {
+                              (typeof value !== 'object' && key !== "passport" && key !== "firstname" && key !== "lastname" && key !== "id" && key !== "signature" && key !== "deck" && key !== "identification") &&
+                              <li key={key}>
+                                <strong>{key.replace("_", " ")}:</strong> {truncateString(value, 14, true)}
+                              </li>
+                            }
+                          </Fragment>
+
+                        ))}
+                      </ul>
+                      <div className="user-uploads">
+                        <div>
+                          <img
+                            alt="..."
+                            className="avatar"
+                            src={user?.signature}
+                          />
+                          <h5 className="title">Signature</h5>
+                        </div>
+                        <div>
+                          <img
+                            alt="..."
+                            className="avatar"
+                            src={user?.identification}
+                          />
+                          <h5 className="title">User Identification</h5>
+                        </div>
+                      </div>
+                      <h4>Kin</h4>
+                      <div>
+                        {user?.kin &&
+                          user?.kin.map((kin, index) => (
+                            <div key={index}>
+                              <h5>Kin {index + 1}</h5>
+                              <ul>
+                                {Object.entries(kin).map(([key, value]) => (
+                                  <li key={key}>
+                                    <strong>{key}:</strong> {truncateString(value, 14, true)}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                      </div>
+                      <h4>Guarantor</h4>
+                      <div>
+                        {user?.guarantor &&
+                          user?.guarantor.map((guarantor, index) => (
+                            <Fragment key={index}>
+                              {
+                                guarantor?.firstname &&
+                                <>
+                                  <h5>Guarantor {index + 1}</h5>
+                                  <ul>
+                                    {Object.entries(guarantor).map(([key, value]) => (
+                                      <li key={key}>
+                                        <strong>{key}:</strong> {truncateString(value, 14, true)}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </>
+                              }
+
+                            </Fragment>
+                          ))}
+                      </div>
+                    </div>
+                  </CardBody>
+                )
+              }
+
               <CardFooter>
                 <div className="button-container">
                   <Button className="btn-icon btn-round" color="facebook">

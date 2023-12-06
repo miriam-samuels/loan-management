@@ -12,6 +12,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes/borrower.js";
 
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
+import { sidebarRoutes } from "routes/borrower";
 
 var ps;
 
@@ -97,7 +98,7 @@ function Borrower(props) {
         <React.Fragment>
           <div className="wrapper">
             <Sidebar
-              routes={routes}
+              routes={sidebarRoutes}
               toggleSidebar={toggleSidebar}
             />
             <div className="main-panel" ref={mainPanelRef} data={color}>

@@ -15,3 +15,39 @@
    max-height: 90vh;
    overflow-y:auto ;
 }
+
+.user-form::-webkit-scrollbar{
+   width: 15px;
+}
+
+.card-description{
+   max-height: 80vh;
+   overflow-y:auto ;
+}
+
+.card-description::-webkit-scrollbar{
+   width: 15px;
+}
+
+.user-header{
+   position:sticky;
+   top: 0%;
+   z-index: 2;
+}
+
+
+.user-uploads{
+   display: grid;
+   grid-template-columns: repeat(2,1fr);
+   justify-content: center;
+}
+
+ul{
+   list-style: none;
+   padding: 0;
+   display: grid;
+   grid-template-columns: repeat(2,1fr);
+}
+ul li{
+   padding: 1em ;
+}

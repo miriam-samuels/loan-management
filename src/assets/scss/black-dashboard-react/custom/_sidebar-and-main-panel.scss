@@ -463,6 +463,10 @@
     min-height: calc(100vh - 70px);
   }
 
+  .content::-webkit-scrollbar{
+    width: 0;
+  }
+
   > .navbar {
     margin-bottom: 0;
   }

@@ -38,11 +38,14 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import { Link, useNavigate } from "react-router-dom";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+
+  const navigate = useNavigate()
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -150,22 +153,26 @@ function AdminNavbar(props) {
                   color="default"
                   nav
                   onClick={(e) => e.preventDefault()}
+                  
                 >
                   <div className="photo">
                     <img alt="..." src={require("assets/img/anime3.png")} />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
+                  <p className="d-lg-none" onClick={()=>navigate("/auth")}>Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li" to="/user-profile">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
+                    <DropdownItem className="nav-item" onClick={() => navigate("/borrower/user-profile")}>Profile</DropdownItem>
                   </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
+                  <NavLink tag="li" onClick={() => navigate("/borrower/icons")}>
+                    <DropdownItem className="nav-item">Icons</DropdownItem>
+                  </NavLink>
+                  <NavLink tag="li" onClick={() => navigate("/borrower/typography")}>
+                    <DropdownItem className="nav-item">Typography</DropdownItem>
                   </NavLink>
                   <DropdownItem divider tag="li" />
-                  <NavLink tag="li">
+                  <NavLink tag="li" onClick={() => navigate("/auth")}>
                     <DropdownItem className="nav-item">Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>

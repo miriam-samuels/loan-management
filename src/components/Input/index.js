@@ -3,12 +3,12 @@ import Select from 'react-select';
 
 import './index.scss'
 import * as Reactstrap from 'reactstrap';
+import { formatNumber } from 'utils/number-formatter';
 export function Input(props) {
    return (
       <div>
          <label className='label' htmlFor={props.name}>{props.label}</label>
          <Reactstrap.Input {...props} className='input' />
-         {/* <input className='input'  {...props} /> */}
       </div>
    )
 }
@@ -116,6 +116,7 @@ export const SelectField = (props) => {
       <div>
          <label className='label' htmlFor={props.name}>{props.label}</label>
          <Select
+            defaultValue={props?.defaultValue}
             {...props}
             styles={styles}
          />

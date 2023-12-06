@@ -19,9 +19,22 @@ export const loanApi = createApi({
                body,
             }),
          }),
+         review: build.mutation({
+            query: (body) => ({
+               url: "/review",
+               method: "PATCH",
+               body,
+            }),
+         }),
          getLoans: build.query({
             query: (status) => ({
-               url: `/loans${status ? `?status=${status}` : ''}`,
+               url: `/all${status ? `?status=${status}` : ''}`,
+               method: "GET",
+            })
+         }),
+         getApplication: build.query({
+            query: (id) => ({
+               url: `/${id}`,
                method: "GET",
             })
          })
@@ -31,5 +44,7 @@ export const loanApi = createApi({
 
 export const {
    useApplyMutation,
-   useGetLoansQuery
+   useGetLoansQuery,
+   useGetApplicationQuery,
+   useReviewMutation,
 } = loanApi

@@ -5,6 +5,8 @@ import { useRegisterMutation } from 'redux/auth'
 import Loader from 'components/loader'
 import './index.scss'
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { setLogged } from 'redux/auth'
 
 function Auth() {
    const [openForm, setOpenForm] = useState()
@@ -14,6 +16,7 @@ function Auth() {
    const [register, { isLoading: isRegistering }] = useRegisterMutation()
 
    const navigate = useNavigate()
+   const dispatch = useDispatch()
 
    const handleInputChange = (e) => {
       setUser({ ...user, [e.target.id]: e.target.value })
@@ -27,10 +30,10 @@ function Auth() {
 
       if (isLogin) res = await login(user);
       else res = await register(user)
-      console.log(res);
 
       if (res?.data?.status) {
          localStorage.setItem('tk', res?.data?.data?.token)
+         dispatch(setLogged(res?.data?.data))
          if (res?.data?.data?.user?.role == "lender") {
             navigate('/lender/dashboard')
          } else if (res?.data?.data?.user?.role == "admin") {

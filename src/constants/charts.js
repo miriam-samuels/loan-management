@@ -1,24 +1,134 @@
-/*!
+function getDay(num) {
+  let day;
+  switch (num) {
+     case 1:
+        day = "Mon"
+        break;
+     case 2:
+        day = "Tue"
+        break;
+     case 3:
+        day = "Wed"
+        break;
+     case 4:
+        day = "Thu"
+        break;
+     case 5:
+        day = "Fri"
+        break;
+     case 6:
+        day = "Sat"
+        break;
+     default:
+        day = "Sun"
+        break;
+  }
 
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
+  return day;
+}
+ 
 // ##############################
 // // // Chart variables
 // #############################
+const weekly = (canvas, data) => {
+  let ctx = canvas.getContext("2d");
 
+  let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+  gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+  gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+  return {
+    labels: data?.labels?.map((l) => getDay(new Date(l).getDay())),
+    datasets: [
+      {
+        label: "Applications",
+        fill: true,
+        backgroundColor: gradientStroke,
+        borderColor: "#1f8ef1",
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: "#1f8ef1",
+        pointBorderColor: "rgba(255,255,255,0)",
+        pointHoverBackgroundColor: "#1f8ef1",
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: data?.points,
+      },
+    ],
+  };
+}
+
+const monthly = (canvas, data) => {
+  let ctx = canvas.getContext("2d");
+
+  let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+  gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+  gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+  console.log(data);
+  return {
+    labels: data?.labels,
+    datasets: [
+      {
+        label: "Applications",
+        fill: true,
+        backgroundColor: gradientStroke,
+        borderColor: "#1f8ef1",
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: "#1f8ef1",
+        pointBorderColor: "rgba(255,255,255,0)",
+        pointHoverBackgroundColor: "#1f8ef1",
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: data?.points,
+      },
+    ],
+  };
+}
+
+const yearly = (canvas, data) => {
+  let ctx = canvas.getContext("2d");
+
+  let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+  gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+  gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+  return {
+    labels: data?.labels,
+    datasets: [
+      {
+        label: "Applications",
+        fill: true,
+        backgroundColor: gradientStroke,
+        borderColor: "#1f8ef1",
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: "#1f8ef1",
+        pointBorderColor: "rgba(255,255,255,0)",
+        pointHoverBackgroundColor: "#1f8ef1",
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: data?.points,
+      },
+    ],
+  };
+}
 // chartExample1 and chartExample2 options
 let chart1_2_options = {
   maintainAspectRatio: false,
@@ -70,7 +180,7 @@ let chart1_2_options = {
 // // // used inside src/views/Dashboard.js
 // #########################################
 let chartExample1 = {
-  data1: (canvas) => {
+  weekly: (canvas) => {
     let ctx = canvas.getContext("2d");
 
     let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -81,22 +191,17 @@ let chartExample1 = {
 
     return {
       labels: [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC",
+        "MON",
+        "TUE",
+        "WED",
+        "THU",
+        "FRI",
+        "SAT",
+        "SUN"
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Applications",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -115,7 +220,7 @@ let chartExample1 = {
       ],
     };
   },
-  data2: (canvas) => {
+  monthly: (canvas) => {
     let ctx = canvas.getContext("2d");
 
     let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -141,7 +246,7 @@ let chartExample1 = {
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Applications",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -160,7 +265,7 @@ let chartExample1 = {
       ],
     };
   },
-  data3: (canvas) => {
+  yearly: (canvas) => {
     let ctx = canvas.getContext("2d");
 
     let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -186,7 +291,7 @@ let chartExample1 = {
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Applications",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -207,6 +312,8 @@ let chartExample1 = {
   },
   options: chart1_2_options,
 };
+
+
 
 // #########################################
 // // // used inside src/views/Dashboard.js
@@ -339,7 +446,7 @@ const chartExample4 = {
       labels: ["JUL", "AUG", "SEP", "OCT", "NOV"],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Applications",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#00d6b4",
@@ -410,5 +517,8 @@ module.exports = {
   chartExample1, // in src/views/Dashboard.js
   chartExample2, // in src/views/Dashboard.js
   chartExample3, // in src/views/Dashboard.js
-  chartExample4, // in src/views/Dashboard.js
+  chartExample4, // in src/views/Dashboard.js,
+  weekly,
+  monthly,
+  yearly,
 };
