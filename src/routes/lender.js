@@ -7,6 +7,7 @@ import LoanHistory from "views/loan-history";
 import Typography from "views/Typography.js";
 import UserProfile from "views/profile";
 import Application from "views/loan-history/application";
+import Borrower from "views/borrowers/borrower";
 
 const routes = [
 
@@ -32,10 +33,17 @@ const routes = [
     layout: "/lender",
   },
   {
-    path: "/lenders",
+    path: "/borrowers",
     name: "Members",
     icon: "tim-icons icon-badge",
     component: <Borrowers />,
+    layout: "/lender",
+  },
+  {
+    path: "/borrowers/:id/",
+    name: "Member",
+    icon: "tim-icons icon-badge",
+    component: <Borrower />,
     layout: "/lender",
   },
   {

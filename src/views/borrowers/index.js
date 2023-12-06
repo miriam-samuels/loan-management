@@ -1,4 +1,6 @@
-import React from 'react'
+import Loader from 'components/loader';
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import {
    Button,
    ButtonGroup,
@@ -18,7 +20,18 @@ import {
    Col,
    UncontrolledTooltip,
 } from "reactstrap";
+import { useLazyGetBorrowersQuery } from 'redux/borrower';
+import { addCommas } from 'utils/number-formatter';
 function Borrowers() {
+   const [getBorrowers, { data, isLoading }] = useLazyGetBorrowersQuery()
+
+   const navigate = useNavigate()
+
+   useEffect(() => {
+      getBorrowers()
+   }, [])
+
+   const brw = data?.data?.user
    return (
       <div className='content'>
          <Row>
@@ -32,56 +45,51 @@ function Borrowers() {
                         <thead className="text-primary">
                            <tr>
                               <th>Name</th>
-                              <th>Country</th>
+                              <th>Email</th>
+                              <th>Gender</th>
                               <th>City</th>
                               <th className="text-center">Salary</th>
+                              <th className="text-center">Action</th>
                            </tr>
                         </thead>
                         <tbody>
+                           {
+                              (!isLoading && brw) && brw?.map((b) => (
+                                 <tr key={b?.id}>
+                                    <td>{b?.firstname} {b?.lastname}</td>
+                                    <td>{b?.email}</td>
+                                    <td>{b?.gender}</td>
+                                    <td>{b?.nationality}</td>
+                                    <td className="text-center">{addCommas(b?.income)}</td>
+                                    <td className="text-center">
+                                       <Button
+                                          color="secondary"
+                                          id={`tooltip${b?.id}`}
+                                          title=""
+                                          type="button"
+                                          onClick={() => navigate(b.id)}
+                                       >
+                                          <i className="tim-icons icon-pencil" />
+                                       </Button>
+                                       <UncontrolledTooltip
+                                          delay={0}
+                                          target={`tooltip${b?.id}`}
+                                          placement="right"
+                                       >
+                                          View
+                                       </UncontrolledTooltip>
+                                    </td>
+                                 </tr>
+                              ))
+                           }
                            <tr>
-                              <td>Dakota Rice</td>
-                              <td>Niger</td>
-                              <td>Oud-Turnhout</td>
-                              <td className="text-center">$36,738</td>
-                           </tr>
-                           <tr>
-                              <td>Minerva Hooper</td>
-                              <td>Curaçao</td>
-                              <td>Sinaai-Waas</td>
-                              <td className="text-center">$23,789</td>
-                           </tr>
-                           <tr>
-                              <td>Sage Rodriguez</td>
-                              <td>Netherlands</td>
-                              <td>Baileux</td>
-                              <td className="text-center">$56,142</td>
-                           </tr>
-                           <tr>
-                              <td>Philip Chaney</td>
-                              <td>Korea, South</td>
-                              <td>Overland Park</td>
-                              <td className="text-center">$38,735</td>
-                           </tr>
-                           <tr>
-                              <td>Doris Greene</td>
-                              <td>Malawi</td>
-                              <td>Feldkirchen in Kärnten</td>
-                              <td className="text-center">$63,542</td>
-                           </tr>
-                           <tr>
-                              <td>Mason Porter</td>
-                              <td>Chile</td>
-                              <td>Gloucester</td>
-                              <td className="text-center">$78,615</td>
-                           </tr>
-                           <tr>
-                              <td>Jon Porter</td>
-                              <td>Portugal</td>
-                              <td>Gloucester</td>
-                              <td className="text-center">$98,615</td>
+
                            </tr>
                         </tbody>
                      </Table>
+                     {
+                        isLoading && <Loader />
+                     }
                   </CardBody>
                </Card>
             </Col>

@@ -1,6 +1,9 @@
 export function addCommas(number) {
+   let numberStr = ''
    // Convert the number to a string
-   let numberStr = number.toString();
+   if (number) {
+      numberStr = number.toString();
+   }
 
    // Use a regular expression to add commas
    numberStr = numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");

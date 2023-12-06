@@ -7,28 +7,14 @@ import {
    CardText,
    Row,
    Col,
-   Button,
 } from "reactstrap";
-import { useGetApplicationQuery } from 'redux/loan';
 import { truncateString } from 'utils/string-formatter'
-import "./index.scss"
-import { useSelector } from 'react-redux';
-import { useReviewMutation } from 'redux/loan';
-function Application() {
+import { useGetBorrowerQuery } from 'redux/borrower';
+function Borrower() {
    const { id } = useParams()
-   const { data, isLoading, refetch } = useGetApplicationQuery(id)
-   const [review, { isLoading: isReviewing }] = useReviewMutation()
-   const logged = useSelector(state => state?.logged?.data)
+   const { data, isLoading } = useGetBorrowerQuery(id)
 
    let user = data?.data?.user
-   let loan = data?.data?.loan
-
-   const reviewLoan = async (status) => {
-      const res = await review({ id, status })
-      if (res?.data) {
-         refetch(id)
-      }
-   }
    return (
       <div className="content">
          {
@@ -37,16 +23,7 @@ function Application() {
          {
             (!isLoading && user && data) && (
                <div>
-                  {
-                     logged.user.role === "lender" && loan.status === "pending" ?
-                        <div className='action-btns'>
-                           <Button color='info' onClick={() => reviewLoan(true)}>{isReviewing ? <Loader/> :'Approve'}</Button>
-                           <Button color='danger' onClick={() => reviewLoan(false)}>{isReviewing ? <Loader/> :'Decline'}</Button>
-                        </div> :
-                        <></>
-                  }
                   <Row>
-
                      <Col md="6">
                         <Card className="card-user">
 
@@ -89,47 +66,7 @@ function Application() {
                            </CardBody>
 
                         </Card>
-                        <Card className='card-user'>
-                           <div className="card-description p-3">
-                              <div>
-                                 {user?.kin &&
-                                    user?.kin.map((kin, index) => (
-                                       <div key={index}>
-                                          <h5>Kin {index + 1}</h5>
-                                          <ul>
-                                             {Object.entries(kin).map(([key, value]) => (
-                                                <li key={key}>
-                                                   <strong>{key}:</strong> {truncateString(value, 20, true)}
-                                                </li>
-                                             ))}
-                                          </ul>
-                                       </div>
-                                    ))}
-                              </div>
-                           </div>
-                        </Card>
-                     </Col>
-                     <Col md="6">
-                        <Card className="card-user">
-                           <CardText />
 
-                           <div className="card-description">
-                              <h4 className='px-3'>Loan Information</h4>
-                              <ul>
-                                 {Object?.entries(loan)?.map(([key, value]) => (
-                                    <Fragment key={key}>
-                                       {
-                                          (typeof value !== 'object' && key !== "borrowerid" && key !== "id") &&
-                                          <li key={key}>
-                                             <strong>{key.replace("_", " ")}:</strong> {truncateString(value, 20, true)}
-                                          </li>
-                                       }
-                                    </Fragment>
-
-                                 ))}
-                              </ul>
-                           </div>
-                        </Card>
                         <Card className="card-user p-3">
                            <div className='card-description'>
                               <div className="user-uploads">
@@ -152,6 +89,9 @@ function Application() {
                               </div>
                            </div>
                         </Card>
+
+                     </Col>
+                     <Col md="6">
                         <Card className='card-user'>
                            <div className="card-description p-3">
                               <div>
@@ -177,7 +117,25 @@ function Application() {
                               </div>
                            </div>
                         </Card>
-
+                        <Card className='card-user'>
+                           <div className="card-description p-3">
+                              <div>
+                                 {user?.kin &&
+                                    user?.kin.map((kin, index) => (
+                                       <div key={index}>
+                                          <h5>Kin {index + 1}</h5>
+                                          <ul>
+                                             {Object.entries(kin).map(([key, value]) => (
+                                                <li key={key}>
+                                                   <strong>{key}:</strong> {truncateString(value, 20, true)}
+                                                </li>
+                                             ))}
+                                          </ul>
+                                       </div>
+                                    ))}
+                              </div>
+                           </div>
+                        </Card>
                      </Col>
                   </Row>
                </div>
@@ -187,4 +145,4 @@ function Application() {
    )
 }
 
-export default Application
+export default Borrower
