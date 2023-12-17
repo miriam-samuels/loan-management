@@ -15,7 +15,7 @@ export function removeCommas(string) {
    let numberStr = ''
    // Use a regular expression to add commas
    if (string) {
-      numberStr = string.replace(/,/g, '');
+      numberStr = string.toString().replace(/,/g, '');
    }
 
    return numberStr;

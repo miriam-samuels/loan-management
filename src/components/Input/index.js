@@ -8,7 +8,7 @@ export function Input(props) {
    return (
       <div>
          <label className='label' htmlFor={props.name}>{props.label}</label>
-         <Reactstrap.Input {...props} className='input' />
+         <Reactstrap.Input {...props} className='input' id={props.name} />
       </div>
    )
 }
@@ -112,14 +112,29 @@ export const SelectField = (props) => {
          },
       }),
    }
+
+   const defaultValue = props.isMulti ?
+      props.defaultValue?.map((d) => { return { label: d, value: d } }) :
+      { label: props?.defaultValue, value: props.defaultValue }
    return (
       <div>
          <label className='label' htmlFor={props.name}>{props.label}</label>
-         <Select
-            defaultValue={props?.defaultValue}
-            {...props}
-            styles={styles}
-         />
+         {
+            typeof (props.defaultValue) === "boolean" ?
+               <Select
+                  defaultValue={defaultValue}
+                  id={props.name}
+                  styles={styles}
+                  {...props}
+               /> :
+               <Select
+                  value={defaultValue}
+                  id={props.name}
+                  styles={styles}
+                  {...props}
+               />
+         }
+
       </div>
 
    );

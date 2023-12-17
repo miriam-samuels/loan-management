@@ -15,19 +15,23 @@ function UserInfo({ save, user, setUser }) {
    const [submit, { isLoading: isSubmitting }] = useUpdateProfileMutation()
 
    const handleInputChange = (e) => {
-      setUser({ ...user, [e.target.name]: e.target.value })
+      if (e.target.type === "number") {
+         setUser({ ...user, [e.target.name]: +e.target.value })
+      } else {
+         setUser({ ...user, [e.target.name]: e.target.value })
+      }
    }
 
    const handleSave = async (e) => {
       e.preventDefault()
       let payload = user
 
-      if (typeof (payload.passport) !== 'string') {
+      if (typeof (payload.passport) !== 'string' && typeof (payload.passport) !== 'undefined') {
          const passport = await uploadFile(payload.passport, upload)
          payload = { ...payload, passport }
       }
 
-      if (typeof (payload.signature) !== 'string') {
+      if (typeof (payload.signature) !== 'string' && typeof (payload.signature) !== 'undefined') {
          const signature = await uploadFile(payload.signature, upload)
          payload = { ...payload, signature }
       }
@@ -64,7 +68,7 @@ function UserInfo({ save, user, setUser }) {
                               classNamePrefix="select"
                               label="Gender"
                               name="gender"
-                              defaultValue={{ label: user.gender, value: user.gender }}
+                              defaultValue={user?.gender}
                               options={gender}
                               onChange={(selected) => setUser({ ...user, gender: selected.value })}
                            />
@@ -75,7 +79,7 @@ function UserInfo({ save, user, setUser }) {
                               classNamePrefix="select"
                               label="Nationality"
                               name="nationality"
-                              defaultValue={{ label: user?.nationality, value: user?.nationality }}
+                              defaultValue={user?.nationality}
                               options={[
                                  { label: "Nigerian", value: "Nigerian" },
                               ]}
@@ -86,7 +90,7 @@ function UserInfo({ save, user, setUser }) {
                               classNamePrefix="select"
                               label="State of Origin"
                               name="state_origin"
-                              defaultValue={{ label: user?.state_origin, value: user?.state_origin }}
+                              defaultValue={user?.state_origin}
                               options={[
                                  { label: "Lagos", value: "Lagos" },
                                  { label: "Akure", value: "Akure" }
@@ -95,20 +99,21 @@ function UserInfo({ save, user, setUser }) {
                            />
                         </div>
                         <div className='input-grp'>
+                           <Input label="Credit Score" type="number" name="credit_score" value={user?.credit_score} onChange={handleInputChange} required />
                            <Input label="Residential Address" type="text" name="address" value={user?.address} onChange={handleInputChange} required />
                         </div>
                         <div className='input-grp'>
                            <div>
-                              <Input label="Passport Photograph" type="file" name="passport" accept=".png, .jpg" onChange={(e) => setUser({ ...user, passport: e.target.files[0] })} required />
+                              <Input label="Passport Photograph" type="file" name="passport" accept=".png, .jpg" onChange={(e) => setUser({ ...user, passport: e.target.files[0] })} required={!user.passport} />
                               <p>{typeof (user.passport) === 'string' && truncateString(user?.passport, 40)}</p>
                            </div>
                            <div>
-                              <Input label="Upload Signature" type="file" name="signature" accept=".png, .jpg" onChange={(e) => setUser({ ...user, signature: e.target.files[0] })} required />
+                              <Input label="Upload Signature" type="file" name="signature" accept=".png, .jpg" onChange={(e) => setUser({ ...user, signature: e.target.files[0] })} required={!user.signature} />
                               <p>{typeof (user.signature) === 'string' && truncateString(user?.signature, 40)}</p>
                            </div>
                         </div>
                         <div className='text-right mt-4'>
-                           <Button color='primary' type='submit' onClick={handleSave}>{isSubmitting || isUploading ? <Loader size={40} /> : "Save and Continue"}</Button>
+                           <Button color='primary' type='submit' >{isSubmitting || isUploading ? <Loader size={40} /> : "Save and Continue"}</Button>
                         </div>
                      </form>
 

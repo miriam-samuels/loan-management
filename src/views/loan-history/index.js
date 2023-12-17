@@ -43,7 +43,7 @@ function LoanHistory() {
                            name="status"
                            options={statuses}
                            onChange={(selected) => setStatus(selected.value)}
-                           defaultValue={statuses[0]}
+                           defaultValue={statuses[0].value}
                         />
                      </div>
                   </CardHeader>

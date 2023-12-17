@@ -46,7 +46,7 @@ function IdentificationInfo({ save, user, setUser }) {
                      <CardTitle tag="h4">Borrower Information</CardTitle>
                   </CardHeader>
                   <CardBody>
-                     <form>
+                     <form onSubmit={handleSave}>
                         <div className='input-grp'>
                            <Input label="National Identity Number" type="text" name="nin" value={user?.nin} maxLength={11} onChange={handleInputChange} required />
                            <div>
@@ -66,14 +66,14 @@ function IdentificationInfo({ save, user, setUser }) {
                               isSearchable={true}
                               name="bank_name"
                               options={banks}
-                              defaultValue={{ label: user?.bank_name, value: user?.bank_name }}
+                              defaultValue={user?.bank_name}
                               onChange={(selected) => setUser({ ...user, bank_name: selected.value })}
                            />
                         </div>
 
                         <div className='text-right mt-4'>
                            <Button color='secondary' onClick={() => save(4)}>Go Back</Button>
-                           <Button color='primary' onClick={handleSave}>{isSubmitting || isUploading ? <Loader size={30} /> : "Save"}</Button>
+                           <Button color='primary'>{isSubmitting || isUploading ? <Loader size={30} /> : "Save"}</Button>
                         </div>
                      </form>
 

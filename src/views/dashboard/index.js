@@ -58,11 +58,13 @@ import { useGetLoanStatsQuery } from "redux/dashboard";
 import Loader from "components/loader";
 import { addCommas } from "utils/number-formatter";
 import { truncateString } from "utils/string-formatter";
+import { useSelector } from "react-redux";
 
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("weekly");
 
   const { data: loanStats, isLoading: loadingStats } = useGetLoanStatsQuery(bigChartData)
+  const logged = useSelector(state => state.logged.data)
 
   const setBgChartData = (name) => {
     setbigChartData(name);
@@ -70,105 +72,109 @@ function Dashboard(props) {
   return (
     <>
       <div className="content">
-        <Row>
-          <Col xs="12">
-            <Card className="card-chart">
-              <CardHeader>
-                <Row>
-                  <Col className="text-left" sm="6">
-                    <h5 className="card-category">Loan Applications</h5>
-                    <CardTitle tag="h2">Statistics</CardTitle>
-                  </Col>
-                  <Col sm="6">
-                    <ButtonGroup
-                      className="btn-group-toggle float-right"
-                      data-toggle="buttons"
-                    >
-                      <Button
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "weekly",
-                        })}
-                        color="info"
-                        id="0"
-                        size="sm"
-                        onClick={() => setBgChartData("weekly")}
-                      >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Weekly
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-single-02" />
-                        </span>
-                      </Button>
-                      <Button
-                        color="info"
-                        id="1"
-                        size="sm"
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "monthly",
-                        })}
-                        onClick={() => setBgChartData("monthly")}
-                      >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Monthly
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-gift-2" />
-                        </span>
-                      </Button>
-                      <Button
-                        color="info"
-                        id="2"
-                        size="sm"
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "yearly",
-                        })}
-                        onClick={() => setBgChartData("yearly")}
-                      >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Yearly
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-tap-02" />
-                        </span>
-                      </Button>
-                    </ButtonGroup>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {
-                  loadingStats ?
-                    <Loader /> :
-                    <div className="chart-area">
-                      {
-                        bigChartData === "weekly" ?
-                          <Line
-                            id="loanstats"
-                            data={(canvas) => weekly(canvas, loanStats?.data)}
-                            options={chartExample1.options}
-                          /> : bigChartData === "monthly" ?
-                            <Line
-                              id="loanstats"
-                              data={(canvas) => monthly(canvas, loanStats?.data)}
-                              options={chartExample1.options}
-                            /> :
-                            <Line
-                              id="loanstats"
-                              data={(canvas) => yearly(canvas, loanStats?.data)}
-                              options={chartExample1.options}
-                            />
-                      }
-                    </div>
-                }
+        {
+          logged.user.role === "lender" ?
+            <Row>
+              <Col xs="12">
+                <Card className="card-chart">
+                  <CardHeader>
+                    <Row>
+                      <Col className="text-left" sm="6">
+                        <h5 className="card-category">Loan Applications</h5>
+                        <CardTitle tag="h2">Statistics</CardTitle>
+                      </Col>
+                      <Col sm="6">
+                        <ButtonGroup
+                          className="btn-group-toggle float-right"
+                          data-toggle="buttons"
+                        >
+                          <Button
+                            tag="label"
+                            className={classNames("btn-simple", {
+                              active: bigChartData === "weekly",
+                            })}
+                            color="info"
+                            id="0"
+                            size="sm"
+                            onClick={() => setBgChartData("weekly")}
+                          >
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              Weekly
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-single-02" />
+                            </span>
+                          </Button>
+                          <Button
+                            color="info"
+                            id="1"
+                            size="sm"
+                            tag="label"
+                            className={classNames("btn-simple", {
+                              active: bigChartData === "monthly",
+                            })}
+                            onClick={() => setBgChartData("monthly")}
+                          >
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              Monthly
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-gift-2" />
+                            </span>
+                          </Button>
+                          <Button
+                            color="info"
+                            id="2"
+                            size="sm"
+                            tag="label"
+                            className={classNames("btn-simple", {
+                              active: bigChartData === "yearly",
+                            })}
+                            onClick={() => setBgChartData("yearly")}
+                          >
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              Yearly
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-tap-02" />
+                            </span>
+                          </Button>
+                        </ButtonGroup>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    {
+                      loadingStats ?
+                        <Loader /> :
+                        <div className="chart-area">
+                          {
+                            bigChartData === "weekly" ?
+                              <Line
+                                id="loanstats"
+                                data={(canvas) => weekly(canvas, loanStats?.data)}
+                                options={chartExample1.options}
+                              /> : bigChartData === "monthly" ?
+                                <Line
+                                  id="loanstats"
+                                  data={(canvas) => monthly(canvas, loanStats?.data)}
+                                  options={chartExample1.options}
+                                /> :
+                                <Line
+                                  id="loanstats"
+                                  data={(canvas) => yearly(canvas, loanStats?.data)}
+                                  options={chartExample1.options}
+                                />
+                          }
+                        </div>
+                    }
 
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row> : <></>
+        }
+
         <Row>
           <Col lg="4">
             <Card className="card-chart count-card">
@@ -226,7 +232,7 @@ function Dashboard(props) {
                   </thead>
                   <tbody>
                     {
-                      (!loadingStats ) && loanStats?.data?.applications?.map((loan, idx) => (
+                      (!loadingStats) && loanStats?.data?.applications?.map((loan, idx) => (
                         <tr key={loan.id}>
                           <td>{idx + 1}</td>
                           <td>{loan.loanId}</td>

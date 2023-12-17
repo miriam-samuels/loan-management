@@ -51,7 +51,7 @@ function KinInfo({ save, user, setUser }) {
                      <CardTitle tag="h4">Next Of Kin Information</CardTitle>
                   </CardHeader>
                   <CardBody>
-                     <form>
+                     <form onSubmit={handleSave}>
                         {
                            kins && kins?.map((kin, idx) => (
                               <div key={idx}>
@@ -71,12 +71,12 @@ function KinInfo({ save, user, setUser }) {
                                        name="relationship"
                                        options={relationships}
                                        required={Boolean(idx === 0)}
-                                       defaultValue={{ label: kin.relationship, value: kin.relationship }}
-                                       onChange={(selected) => {
-                                          const newData = kins
-                                          newData[idx] = { ...newData[idx], relationship: selected.value }
-                                          setKins(newData)
-                                       }}
+                                       defaultValue={kin.relationship}
+                                    onChange={(selected) => {
+                                       const newData = kins
+                                       newData[idx] = { ...newData[idx], relationship: selected.value }
+                                       setKins(newData)
+                                    }}
                                     />
                                     <Input label="Residential Address" type="text" name="address" value={kin.address} onChange={(e) => handleInputChange(e, idx)} required={Boolean(idx === 0)} />
                                  </div>
@@ -90,7 +90,7 @@ function KinInfo({ save, user, setUser }) {
 
                         <div className='text-right mt-4'>
                            <Button color='secondary' onClick={() => save(3)}>Go Back</Button>
-                           <Button color='primary' onClick={handleSave}>{isSubmitting ? <Loader size={30} /> : "Save and Continue"}</Button>
+                           <Button color='primary' type='submit'>{isSubmitting ? <Loader size={30} /> : "Save and Continue"}</Button>
                         </div>
                      </form>
 

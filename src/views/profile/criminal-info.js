@@ -12,11 +12,15 @@ function CriminalInfo({ save, user, setUser }) {
 
 
    const handleInputChange = (e) => {
-      setUser({ ...user, [e.target.name]: e.target.value })
+      if (e.target.type === "number") {
+         setUser({ ...user, [e.target.name]: +e.target.value })
+      } else {
+         setUser({ ...user, [e.target.name]: e.target.value })
+      }
    }
    const handleSave = async (e) => {
       e.preventDefault()
-      let payload = { ...user, jail_time: +user.jail_time }
+      let payload = user
       setUser(payload)
 
       const res = await submit(payload)
@@ -25,7 +29,7 @@ function CriminalInfo({ save, user, setUser }) {
          save(4)
       } else toast.error(res.error.message)
    }
-   const criminalOffences = user.offenses?.map((offense) => { return { label: offense, value: offense } })
+
    return (
       <div className='content'>
          <Row>
@@ -38,12 +42,15 @@ function CriminalInfo({ save, user, setUser }) {
                      <form onSubmit={handleSave}>
                         <div className='input-grp'>
                            <SelectField
+                              className="basic-single"
                               classNamePrefix="select"
                               label="Do you have a criminal record"
                               name="has_criminal_record"
+                              isSearchable={false}
                               options={yesno}
-                              defaultValue={{ label: user?.has_criminal_record, value: user?.has_criminal_record }}
+                              defaultValue={user?.has_criminal_record}
                               onChange={(selected) => setUser({ ...user, has_criminal_record: selected.value })}
+                              required
                            />
                            <SelectField
                               classNamePrefix="select"
@@ -52,7 +59,7 @@ function CriminalInfo({ save, user, setUser }) {
                               isMulti
                               name="offenses"
                               options={offenses}
-                              defaultValue={criminalOffences}
+                              defaultValue={user.offenses}
                               onChange={(selected) => {
                                  const items = selected.map((item) => item.value)
                                  setUser({ ...user, offenses: items })

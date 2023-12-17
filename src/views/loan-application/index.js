@@ -52,7 +52,7 @@ function LoanApplication() {
                   gettingUser ? <Loader /> :
                      <Fragment>
                         {
-                           user.data.user.progress >= 90 ?
+                           user.data.user.progress >= 80 ?
                               <Card>
                                  <CardHeader>
                                     <CardTitle tag="h4">Loan Information</CardTitle>
@@ -102,7 +102,6 @@ function LoanApplication() {
                                              label="Is there available Collateral for a secured loan?"
                                              name="has_collateral"
                                              options={yesno}
-                                             defaultValue={{ label: loan?.has_collateral, value: loan?.has_collateral }}
                                              onChange={(selected) => setLoan({ ...loan, has_collateral: selected.value })}
                                           />
                                           <SelectField
@@ -111,7 +110,6 @@ function LoanApplication() {
                                              isSearchable={true}
                                              name="collateral"
                                              options={assets}
-                                             defaultValue={{ label: loan?.collateral, value: loan?.collateral }}
                                              onChange={(selected) => setLoan({ ...loan, collateral: selected.value })}
                                              required={loan?.has_collateral}
                                           />

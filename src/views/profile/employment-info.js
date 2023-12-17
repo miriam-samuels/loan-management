@@ -17,7 +17,11 @@ function EmploymentInfo({ save, user, setUser }) {
    const [submit, { isLoading: isSubmitting }] = useUpdateProfileMutation()
 
    const handleInputChange = (e) => {
-      setUser({ ...user, [e.target.name]: e.target.value })
+      if (e.target.type === "number") {
+         setUser({ ...user, [e.target.name]: +e.target.value })
+      } else {
+         setUser({ ...user, [e.target.name]: e.target.value })
+      }
    }
 
    const hanldeAmoutFormatting = (e) => {
@@ -28,11 +32,11 @@ function EmploymentInfo({ save, user, setUser }) {
       e.preventDefault()
       let payload = user
 
-      if (typeof (payload.deck) !== 'string') {
+      if (typeof (payload.deck) !== 'string' && typeof (payload.deck) !== 'undefined') {
          const deck = await uploadFile(payload.deck, upload)
          payload = { ...payload, deck }
       }
-      payload = { ...payload, income: removeCommas(payload.income), job_term: +payload.job_term }
+      payload = { ...payload, income: +removeCommas(payload.income) }
       setUser(payload)
       const res = await submit(payload)
 
@@ -59,7 +63,7 @@ function EmploymentInfo({ save, user, setUser }) {
                               isSearchable={true}
                               name="job"
                               options={occupations}
-                              defaultValue={{ label: user?.job, value: user?.job }}
+                              defaultValue={user?.job}
                               onChange={(selected) => setUser({ ...user, job: selected.value })}
                            />
                            <Input label="Employment Period (years)" type="number" value={user.job_term} name="job_term" onChange={handleInputChange} required />

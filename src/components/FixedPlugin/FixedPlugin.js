@@ -64,7 +64,7 @@ function FixedPlugin(props) {
                   props.handleBgClick(backgroundColors.green);
                 }}
               />{" "}
-            </div>
+            </div> 
           </li>
           <li className="adjustments-line text-center color-change">
             <ThemeContext.Consumer>
