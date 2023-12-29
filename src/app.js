@@ -13,7 +13,7 @@ function App() {
    return (
       <BrowserRouter>
          <Routes>
-            <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<Auth />} />
             {
                logged?.user?.role === "admin" &&
                <Route path="/admin/*" element={<AdminLayout />} />
@@ -32,7 +32,7 @@ function App() {
             {/* TODO: Create a 404 page not found */}
             <Route
                path="*"
-               element={<Navigate to="/auth" replace />}
+               element={<Navigate to="/" replace />}
             />
          </Routes>
       </BrowserRouter>

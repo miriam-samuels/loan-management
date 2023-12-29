@@ -121,7 +121,7 @@ function Application() {
                                        {
                                           (typeof value !== 'object' && key !== "borrowerid" && key !== "id") &&
                                           <li key={key}>
-                                             <strong>{key.replace("_", " ")}:</strong> {truncateString(value, 20, true)}
+                                             <strong>{key.replace("_", " ")}:</strong> {truncateString(value, 20, true)} {key === "creditworthiness" ? "/ 10" : ''}
                                           </li>
                                        }
                                     </Fragment>

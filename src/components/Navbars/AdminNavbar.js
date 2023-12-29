@@ -159,7 +159,7 @@ function AdminNavbar(props) {
                     <img alt="..." src={require("assets/img/anime3.png")} />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none" onClick={()=>navigate("/auth")}>Log out</p>
+                  <p className="d-lg-none" onClick={()=>navigate("/")}>Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li" to="/user-profile">
@@ -172,7 +172,7 @@ function AdminNavbar(props) {
                     <DropdownItem className="nav-item">Typography</DropdownItem>
                   </NavLink>
                   <DropdownItem divider tag="li" />
-                  <NavLink tag="li" onClick={() => navigate("/auth")}>
+                  <NavLink tag="li" onClick={() => navigate("/")}>
                     <DropdownItem className="nav-item">Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
