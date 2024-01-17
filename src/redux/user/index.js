@@ -20,7 +20,7 @@ export const userApi = createApi({
          }),
          updateProfile: build.mutation({
             query: (body) => ({
-               url: "/",
+               url: "/me",
                method: "PATCH",
                body
             })
